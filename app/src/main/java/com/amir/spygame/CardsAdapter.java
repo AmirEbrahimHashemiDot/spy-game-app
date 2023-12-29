@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -14,21 +15,23 @@ import java.util.List;
 
 public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHolder> {
 
-    ArrayList<String> cardsList;
+    public ArrayList<String> cardsList;
+    public OnItemViewClick onItemViewClick;
 
-    public CardsAdapter() {
+    public CardsAdapter(ArrayList<String> cardsListFromUser, OnItemViewClick onItemViewClick) {
+        this.onItemViewClick = onItemViewClick;
+        //cardsList = new ArrayList<>();
+        cardsList = cardsListFromUser;
 
 
-        cardsList = new ArrayList<>();
-
-        cardsList.add("Player 1");
+        /*cardsList.add("Player 1");
         cardsList.add("Player 2");
         cardsList.add("Player 3");
         cardsList.add("Player 4");
         cardsList.add("Player 5");
         cardsList.add("Player 6");
         cardsList.add("Player 7");
-        cardsList.add("Player 8");
+        cardsList.add("Player 8");*/
     }
 
     @NonNull
@@ -40,7 +43,13 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHol
 
     @Override
     public void onBindViewHolder(@NonNull CardsViewHolder holder, int position) {
-        holder.tvCardItem.setText("Player " + cardsList.get(position));
+        holder.tvCardItem.setText(cardsList.get(position));
+        holder.cardItemCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemViewClick.itemViewClick(holder.getAdapterPosition());
+            }
+        });
     }
 
     @Override
@@ -50,14 +59,20 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHol
 
     public static class CardsViewHolder extends RecyclerView.ViewHolder {
 
+        CardView cardItemCardView;
         ImageView imgCardItem;
         TextView tvCardItem;
 
         public CardsViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            cardItemCardView = itemView.findViewById(R.id.cardItemCardView);
             imgCardItem = itemView.findViewById(R.id.imgCardItem);
             tvCardItem = itemView.findViewById(R.id.tvCardItem);
         }
+    }
+
+    public interface OnItemViewClick {
+        void itemViewClick(int position);
     }
 }
