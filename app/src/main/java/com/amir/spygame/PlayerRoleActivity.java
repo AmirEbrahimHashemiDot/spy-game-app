@@ -2,7 +2,9 @@ package com.amir.spygame;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ public class PlayerRoleActivity extends AppCompatActivity {
     ImageView imgPlayerPic;
     TextView tvPlayerName, tvPlayerRole;
     Button btnIGotIt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +29,6 @@ public class PlayerRoleActivity extends AppCompatActivity {
         btnIGotIt = findViewById(R.id.btnIGotIt);
 
 
-
         String player_role = getIntent().getStringExtra("role");
         if (Objects.equals(player_role, "true")) {
             tvPlayerRole.setText("Spy");
@@ -34,7 +36,15 @@ public class PlayerRoleActivity extends AppCompatActivity {
             tvPlayerRole.setText("Citizen");
         }
 
+        //Toast.makeText(this, player_role, Toast.LENGTH_SHORT).show();
 
-        Toast.makeText(this, player_role, Toast.LENGTH_SHORT).show();
+        btnIGotIt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PlayerRoleActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 }

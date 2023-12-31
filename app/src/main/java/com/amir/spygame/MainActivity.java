@@ -18,7 +18,10 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> cardsListFromUser;
 
     public boolean isSpy;
-    int firstRandItem, secondRandItem;
+    public int firstRandItem, secondRandItem;
+    public int currentRandObject;
+
+    public CommonStrings common;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         cardsListFromUser = new ArrayList<>();
 
+        randomObjectOperation();
         setUpRecyclerView();
     }
 
@@ -43,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         cardsListFromUser.add("Player 7");
         cardsListFromUser.add("Player 8");
 
-        randomOperation(cardsListFromUser);
+        randomSpyOperation(cardsListFromUser);
 
         adapter = new CardsAdapter(cardsListFromUser, new CardsAdapter.OnItemViewClick() {
             @Override
@@ -65,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         rvCardsMain.setAdapter(adapter);
     }
 
-    private void randomOperation(ArrayList<String> list) {
+    private void randomSpyOperation(ArrayList<String> list) {
 
         Random random = new Random();
         firstRandItem = random.nextInt(list.size());
@@ -78,7 +82,21 @@ public class MainActivity extends AppCompatActivity {
         if (firstRandItem == secondRandItem) {
             //secondRandItem = random.nextInt(list.size());
             Toast.makeText(this, "تشابه", Toast.LENGTH_SHORT).show();
-            randomOperation(cardsListFromUser);
+            randomSpyOperation(cardsListFromUser);
         }
+    }
+
+    public void randomObjectOperation() {
+
+        common = new CommonStrings();
+        ArrayList<String> list = common.getObjectList();
+
+        Random random = new Random();
+        currentRandObject = random.nextInt(list.size());
+
+        String t = list.get(currentRandObject);
+        Toast.makeText(this, "object: " + t + " / " + currentRandObject, Toast.LENGTH_SHORT).show();
+
+
     }
 }
