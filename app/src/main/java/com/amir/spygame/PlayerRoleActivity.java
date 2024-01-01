@@ -17,6 +17,7 @@ public class PlayerRoleActivity extends AppCompatActivity {
     ImageView imgPlayerPic;
     TextView tvPlayerName, tvPlayerRole;
     Button btnIGotIt;
+    String player_role, currentObjectString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +30,13 @@ public class PlayerRoleActivity extends AppCompatActivity {
         btnIGotIt = findViewById(R.id.btnIGotIt);
 
 
-        String player_role = getIntent().getStringExtra("role");
+        player_role = getIntent().getStringExtra("role");
+        currentObjectString = getIntent().getStringExtra("object_name");
+
         if (Objects.equals(player_role, "true")) {
             tvPlayerRole.setText("Spy");
         } else if (Objects.equals(player_role, "false")){
-            tvPlayerRole.setText("Citizen");
+            tvPlayerRole.setText("Citizen\n" + currentObjectString);
         }
 
         //Toast.makeText(this, player_role, Toast.LENGTH_SHORT).show();

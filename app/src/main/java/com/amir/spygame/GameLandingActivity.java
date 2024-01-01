@@ -56,7 +56,7 @@ public class GameLandingActivity extends AppCompatActivity {
                 }*/
 
                 Intent intent = new Intent(GameLandingActivity.this, MainActivity.class);
-                intent.putExtra("count", numberOfPlayers);
+                //intent.putExtra("count", numberOfPlayers);
                 startActivity(intent);
                 finish();
             }
@@ -70,12 +70,18 @@ public class GameLandingActivity extends AppCompatActivity {
                 //Toast.makeText(GameLandingActivity.this, "item " + item, Toast.LENGTH_SHORT).show();
 
                 numberOfPlayers = Integer.parseInt(item);
+                new GameParameters(numberOfPlayers);
+                //GameParameters parameters = new GameParameters();
+                //parameters.setPlayerNumber(numberOfPlayers);
                 isSelected = true;
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 isSelected = false;
+                new GameParameters(numberOfPlayers);
+                //GameParameters parameters = new GameParameters();
+                //parameters.setPlayerNumber(3);
             }
         });
 

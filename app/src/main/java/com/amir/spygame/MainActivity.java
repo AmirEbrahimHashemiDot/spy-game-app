@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     public CommonStrings common;
     public int numberOfList;
     int rvSpanCount;
+    public String currentObjectString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,17 +42,22 @@ public class MainActivity extends AppCompatActivity {
     private void setUpRecyclerView() {
         rvCardsMain = findViewById(R.id.rvCardsMain);
 
-        numberOfList = getIntent().getIntExtra("count", 3);
+        //numberOfList = getIntent().getIntExtra("count", 3);
+        GameParameters parameters = new GameParameters();
+        numberOfList = parameters.getPlayerNumber();
+        /*if (Objects.equals(numberOfList, null)) {
+            numberOfList = 3;
+        }*/
 
-        if (numberOfList >= 1 && numberOfList <= 8) {
+        /*if (numberOfList >= 1 && numberOfList <= 8) {
             rvSpanCount = 2;
         } else if (numberOfList >= 9 && numberOfList <= 16) {
             rvSpanCount = 3;
         } else if (numberOfList >= 17) {
             rvSpanCount = 4;
-        }
+        }*/
 
-        rvCardsMain.setLayoutManager(new GridLayoutManager(MainActivity.this, rvSpanCount));
+        rvCardsMain.setLayoutManager(new GridLayoutManager(MainActivity.this, 3));
 
 
         for (int i = 1; i <= numberOfList; i++) {
@@ -82,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(MainActivity.this, PlayerRoleActivity.class);
                 intent.putExtra("role", String.valueOf(isSpy));
+                intent.putExtra("object_name", currentObjectString);
                 startActivity(intent);
             }
         });
@@ -228,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
         Random random = new Random();
         currentRandObject = random.nextInt(list.size());
 
-        String t = list.get(currentRandObject);
-        Toast.makeText(this, "object: " + t + " / " + currentRandObject, Toast.LENGTH_SHORT).show();
+        currentObjectString = list.get(currentRandObject);
+        //Toast.makeText(this, "object: " + currentObjectString + " / " + currentRandObject, Toast.LENGTH_SHORT).show();
     }
 }
