@@ -85,15 +85,12 @@ public class CommonStrings {
     };
 
     public CommonStrings() {
-        getObjectList();
+
     }
 
     public ArrayList<String> getObjectList() {
-        //String[] list = {"sidewalk", "pop can", "water bottle", "hanger"};
         List<String> stringList = Arrays.asList(objectList2); // Converting array to List
         ArrayList<String> objectArrayList = new ArrayList<>(stringList);// Converting List to ArrayList
-
         return objectArrayList;
-        //System.out.println(objectArrayList);
     }
 }
