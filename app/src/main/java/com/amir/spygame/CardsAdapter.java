@@ -1,5 +1,7 @@
 package com.amir.spygame;
 
+import android.graphics.Color;
+import android.media.RouteListingPreference;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,11 +45,14 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHol
 
     @Override
     public void onBindViewHolder(@NonNull CardsViewHolder holder, int position) {
-        holder.tvCardItem.setText(cardsList.get(position));
+        //holder.tvCardItem.setText(cardsList.get(position));
+        holder.tvCardItem.setText("Player");
         holder.cardItemCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onItemViewClick.itemViewClick(holder.getAdapterPosition());
+                holder.cardItemCardView.setClickable(false);
+                holder.cardItemCardView.setBackgroundColor(Color.GRAY);
             }
         });
     }
@@ -70,6 +75,8 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHol
             imgCardItem = itemView.findViewById(R.id.imgCardItem);
             tvCardItem = itemView.findViewById(R.id.tvCardItem);
         }
+
+
     }
 
     public interface OnItemViewClick {

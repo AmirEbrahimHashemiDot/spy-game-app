@@ -10,11 +10,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
-
     RecyclerView rvCardsMain;
     CardsAdapter adapter;
     ArrayList<String> cardsListFromUser;
@@ -45,60 +43,50 @@ public class MainActivity extends AppCompatActivity {
         //numberOfList = getIntent().getIntExtra("count", 3);
         GameParameters parameters = new GameParameters();
         numberOfList = parameters.getPlayerNumber();
-        /*if (Objects.equals(numberOfList, null)) {
-            numberOfList = 3;
-        }*/
 
-        /*if (numberOfList >= 1 && numberOfList <= 8) {
+        if (numberOfList >= 1 && numberOfList <= 8) {
             rvSpanCount = 2;
         } else if (numberOfList >= 9 && numberOfList <= 16) {
             rvSpanCount = 3;
         } else if (numberOfList >= 17) {
             rvSpanCount = 4;
-        }*/
+        }
 
-        rvCardsMain.setLayoutManager(new GridLayoutManager(MainActivity.this, 3));
+        rvCardsMain.setLayoutManager(new GridLayoutManager(MainActivity.this, rvSpanCount));
 
 
         for (int i = 1; i <= numberOfList; i++) {
             cardsListFromUser.add("Player " + i);
         }
 
-//        cardsListFromUser.add("Player 1");
-//        cardsListFromUser.add("Player 2");
-//        cardsListFromUser.add("Player 3");
-//        cardsListFromUser.add("Player 4");
-//        cardsListFromUser.add("Player 5");
-//        cardsListFromUser.add("Player 6");
-//        cardsListFromUser.add("Player 7");
-//        cardsListFromUser.add("Player 8");
-
         checkNumberOfSpyByPlayers(cardsListFromUser);
 
-        adapter = new CardsAdapter(cardsListFromUser, new CardsAdapter.OnItemViewClick() {
-            @Override
-            public void itemViewClick(int position) {
+        if (adapter == null) {
+            adapter = new CardsAdapter(cardsListFromUser, new CardsAdapter.OnItemViewClick() {
+                @Override
+                public void itemViewClick(int position) { //start from 0
 
-                if (position == firstRandItem || position == secondRandItem) {
-                    //Toast.makeText(MainActivity.this, "spy", Toast.LENGTH_SHORT).show();
-                    isSpy = true;
-                } else {
-                    //Toast.makeText(MainActivity.this, "citizen", Toast.LENGTH_SHORT).show();
-                    isSpy = false;
+                    if (position == firstRandItem || position == secondRandItem || position == thirdRandomItem ||
+                            position == fourthRandomItem || position == fifthRandomItem || position == sixthRandomItem) {
+                        //Toast.makeText(MainActivity.this, "spy", Toast.LENGTH_SHORT).show();
+                        isSpy = true;
+                    } else {
+                        //Toast.makeText(MainActivity.this, "citizen", Toast.LENGTH_SHORT).show();
+                        isSpy = false;
+                    }
+
+                    Intent intent = new Intent(MainActivity.this, PlayerRoleActivity.class);
+                    intent.putExtra("role", String.valueOf(isSpy));
+                    intent.putExtra("object_name", currentObjectString);
+                    startActivity(intent);
                 }
+            });
+        }
 
-                Intent intent = new Intent(MainActivity.this, PlayerRoleActivity.class);
-                intent.putExtra("role", String.valueOf(isSpy));
-                intent.putExtra("object_name", currentObjectString);
-                startActivity(intent);
-            }
-        });
         rvCardsMain.setAdapter(adapter);
     }
 
     private void checkNumberOfSpyByPlayers(ArrayList<String> list) {
-
-
         if (numberOfList >= 1 && numberOfList <= 4) {
             generateRandomSpyByNumber(list, 0);
         } else if (numberOfList >= 5 && numberOfList <= 8) {
@@ -128,14 +116,13 @@ public class MainActivity extends AppCompatActivity {
                 firstRandItem = random.nextInt(list.size());
                 secondRandItem = random.nextInt(list.size());
 
-                cardsListFromUser.set(firstRandItem, "Spy 1");
-                cardsListFromUser.set(secondRandItem, "Spy 2");
-
-
                 if (firstRandItem == secondRandItem) {
-                    //secondRandItem = random.nextInt(list.size());
-                    Toast.makeText(this, "similarity in rand", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "similarity in rand", Toast.LENGTH_SHORT).show();
+                    Log.i("E_TAG", "generateRandomSpyByNumber: similar :" + stair);
                     checkNumberOfSpyByPlayers(cardsListFromUser);
+                } else {
+                    cardsListFromUser.set(firstRandItem, "Spy 1");
+                    cardsListFromUser.set(secondRandItem, "Spy 2");
                 }
                 break;
 
@@ -144,14 +131,14 @@ public class MainActivity extends AppCompatActivity {
                 secondRandItem = random.nextInt(list.size());
                 thirdRandomItem = random.nextInt(list.size());
 
-                cardsListFromUser.set(firstRandItem, "Spy 1");
-                cardsListFromUser.set(secondRandItem, "Spy 2");
-                cardsListFromUser.set(thirdRandomItem, "Spy 3");
-
                 if (firstRandItem == secondRandItem || firstRandItem == thirdRandomItem || secondRandItem == thirdRandomItem) {
-                    //secondRandItem = random.nextInt(list.size());
-                    Toast.makeText(this, "similarity in rand", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "similarity in rand", Toast.LENGTH_SHORT).show();
+                    Log.i("E_TAG", "generateRandomSpyByNumber: similar :" + stair);
                     checkNumberOfSpyByPlayers(cardsListFromUser);
+                } else {
+                    cardsListFromUser.set(firstRandItem, "Spy 1");
+                    cardsListFromUser.set(secondRandItem, "Spy 2");
+                    cardsListFromUser.set(thirdRandomItem, "Spy 3");
                 }
                 break;
 
@@ -161,16 +148,16 @@ public class MainActivity extends AppCompatActivity {
                 thirdRandomItem = random.nextInt(list.size());
                 fourthRandomItem = random.nextInt(list.size());
 
-                cardsListFromUser.set(firstRandItem, "Spy 1");
-                cardsListFromUser.set(secondRandItem, "Spy 2");
-                cardsListFromUser.set(thirdRandomItem, "Spy 3");
-                cardsListFromUser.set(fourthRandomItem, "Spy 4");
-
                 if (firstRandItem == secondRandItem || firstRandItem == thirdRandomItem || secondRandItem == thirdRandomItem ||
                         fourthRandomItem == firstRandItem || fourthRandomItem == secondRandItem || fourthRandomItem == thirdRandomItem) {
-                    //secondRandItem = random.nextInt(list.size());
-                    Toast.makeText(this, "similarity in rand", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "similarity in rand", Toast.LENGTH_SHORT).show();
+                    Log.i("E_TAG", "generateRandomSpyByNumber: similar :" + stair);
                     checkNumberOfSpyByPlayers(cardsListFromUser);
+                } else {
+                    cardsListFromUser.set(firstRandItem, "Spy 1");
+                    cardsListFromUser.set(secondRandItem, "Spy 2");
+                    cardsListFromUser.set(thirdRandomItem, "Spy 3");
+                    cardsListFromUser.set(fourthRandomItem, "Spy 4");
                 }
                 break;
 
@@ -181,18 +168,18 @@ public class MainActivity extends AppCompatActivity {
                 fourthRandomItem = random.nextInt(list.size());
                 fifthRandomItem = random.nextInt(list.size());
 
-                cardsListFromUser.set(firstRandItem, "Spy 1");
-                cardsListFromUser.set(secondRandItem, "Spy 2");
-                cardsListFromUser.set(thirdRandomItem, "Spy 3");
-                cardsListFromUser.set(fourthRandomItem, "Spy 4");
-                cardsListFromUser.set(fifthRandomItem, "Spy 5");
-
                 if (firstRandItem == secondRandItem || firstRandItem == thirdRandomItem || secondRandItem == thirdRandomItem ||
                         fourthRandomItem == firstRandItem || fourthRandomItem == secondRandItem || fourthRandomItem == thirdRandomItem ||
                         fifthRandomItem == firstRandItem || fifthRandomItem == secondRandItem || fifthRandomItem == thirdRandomItem || fifthRandomItem == fourthRandomItem) {
-                    //secondRandItem = random.nextInt(list.size());
-                    Toast.makeText(this, "similarity in rand", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "similarity in rand", Toast.LENGTH_SHORT).show();
+                    Log.i("E_TAG", "generateRandomSpyByNumber: similar :" + stair);
                     checkNumberOfSpyByPlayers(cardsListFromUser);
+                } else {
+                    cardsListFromUser.set(firstRandItem, "Spy 1");
+                    cardsListFromUser.set(secondRandItem, "Spy 2");
+                    cardsListFromUser.set(thirdRandomItem, "Spy 3");
+                    cardsListFromUser.set(fourthRandomItem, "Spy 4");
+                    cardsListFromUser.set(fifthRandomItem, "Spy 5");
                 }
                 break;
 
@@ -204,21 +191,21 @@ public class MainActivity extends AppCompatActivity {
                 fifthRandomItem = random.nextInt(list.size());
                 sixthRandomItem = random.nextInt(list.size());
 
-                cardsListFromUser.set(firstRandItem, "Spy 1");
-                cardsListFromUser.set(secondRandItem, "Spy 2");
-                cardsListFromUser.set(thirdRandomItem, "Spy 3");
-                cardsListFromUser.set(fourthRandomItem, "Spy 4");
-                cardsListFromUser.set(fifthRandomItem, "Spy 5");
-                cardsListFromUser.set(sixthRandomItem, "Spy 6");
-
                 if (firstRandItem == secondRandItem || firstRandItem == thirdRandomItem || secondRandItem == thirdRandomItem ||
                         fourthRandomItem == firstRandItem || fourthRandomItem == secondRandItem || fourthRandomItem == thirdRandomItem ||
                         fifthRandomItem == firstRandItem || fifthRandomItem == secondRandItem || fifthRandomItem == thirdRandomItem || fifthRandomItem == fourthRandomItem ||
                         sixthRandomItem == firstRandItem || sixthRandomItem == secondRandItem || sixthRandomItem == thirdRandomItem || sixthRandomItem == fourthRandomItem ||
                         sixthRandomItem == fifthRandomItem) {
-                    //secondRandItem = random.nextInt(list.size());
-                    Toast.makeText(this, "similarity in rand", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "similarity in rand", Toast.LENGTH_SHORT).show();
+                    Log.i("E_TAG", "generateRandomSpyByNumber: similar :" + stair);
                     checkNumberOfSpyByPlayers(cardsListFromUser);
+                } else {
+                    cardsListFromUser.set(firstRandItem, "Spy 1");
+                    cardsListFromUser.set(secondRandItem, "Spy 2");
+                    cardsListFromUser.set(thirdRandomItem, "Spy 3");
+                    cardsListFromUser.set(fourthRandomItem, "Spy 4");
+                    cardsListFromUser.set(fifthRandomItem, "Spy 5");
+                    cardsListFromUser.set(sixthRandomItem, "Spy 6");
                 }
                 break;
 
