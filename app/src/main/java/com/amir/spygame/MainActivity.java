@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         GameParameters parameters = new GameParameters();
         numberOfList = parameters.getPlayerNumber();
 
+        //Manage RV Layout
         if (numberOfList >= 1 && numberOfList <= 8) {
             rvSpanCount = 2;
         } else if (numberOfList >= 9 && numberOfList <= 16) {
@@ -53,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         rvCardsMain.setLayoutManager(new GridLayoutManager(MainActivity.this, rvSpanCount));
-
 
         for (int i = 1; i <= numberOfList; i++) {
             cardsListFromUser.add("Player " + i);
@@ -225,5 +225,11 @@ public class MainActivity extends AppCompatActivity {
 
         currentObjectString = list.get(currentRandObject);
         //Toast.makeText(this, "object: " + currentObjectString + " / " + currentRandObject, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
     }
 }

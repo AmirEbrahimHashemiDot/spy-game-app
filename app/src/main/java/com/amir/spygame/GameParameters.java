@@ -2,6 +2,7 @@ package com.amir.spygame;
 
 public class GameParameters {
     static int playerNumber;
+    static int cardItemsClicked;
 
     public GameParameters(int playerCount) {
         this.playerNumber = playerCount;
@@ -9,6 +10,14 @@ public class GameParameters {
 
     public GameParameters() {
 
+    }
+
+    public static int getCardItemsClicked() {
+        return cardItemsClicked;
+    }
+
+    public static void setCardItemsClicked(int cardItemsClicked) {
+        GameParameters.cardItemsClicked = cardItemsClicked;
     }
 
     public int getPlayerNumber() {
