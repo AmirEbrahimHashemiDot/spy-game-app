@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     public int numberOfList;
     int rvSpanCount;
     public String currentObjectString;
+    boolean doubleBackToExitApplication = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -229,7 +232,23 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
+        //Toast.makeText(this, "Press again to Exit.", Toast.LENGTH_SHORT).show();
 
+        /*if (doubleBackToExitApplication) {
+            super.onBackPressed();
+            return;
+        }*/
+
+        this.doubleBackToExitApplication = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitApplication = false;
+                finishAffinity();
+            }
+        }, 2000);
     }
 }
